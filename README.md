@@ -5,7 +5,9 @@
 ![Stack](https://img.shields.io/badge/Web-HTML%20%7C%20CSS%20%7C%20JS-orange)
 
 Este proyecto es una aplicación web interactiva que utiliza **Visión por Computadora (Computer Vision)** para identificar obras de arte famosas en tiempo real mediante la cámara del dispositivo. Su objetivo es funcionar como un guía de museo inteligente, proporcionando información histórica y estilística al instante.
-Haz click en el link para ver la pagina  https://alejandrottr8.github.io/Arte-con-IA/
+
+[Haz click aqui para ver la pagina web]( https://alejandrottr8.github.io/Arte-con-IA/)
+
 ---
 
 ## 📹 Video Demostrativo
