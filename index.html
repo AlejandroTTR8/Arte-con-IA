@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lo Mejor del Arte - Galería IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS GENERALES (CSS) --- */
+        :root {
+            --bg-color: #0a0a0a; /* Negro profundo */
+            --text-color: #e0d2b4; /* Color crema/oro antiguo */
+            --accent-color: #d4af37; /* Dorado rico */
+            --box-bg: #000000; /* Fondo de las cajas */
+        }
+
+       body {
+            font-family: 'Playfair Display', serif;
+            /* Aquí cargamos la imagen y le ponemos una capa negra al 60% encima */
+            background: linear-gradient(rgba(0, 0, 0, 0.655), rgba(0, 0, 0, 0.671)), url('https://wallpaperaccess.com/full/8248969.jpg');
+            background-size: cover;      /* Para que cubra toda la pantalla */
+            background-position: center; /* Centrada */
+            background-attachment: fixed; /* Efecto elegante al hacer scroll */
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Agregamos estilo para el botón de Detener (Rojo elegante) */
+        .boton-rojo {
+            background: linear-gradient(45deg, #8a1c1c, #5c0e0e);
+            box-shadow: 0 5px 15px rgba(138, 28, 28, 0.4);
+            margin-left: 20px; /* Separación del otro botón */
+        }
+        .boton-rojo:hover {
+            box-shadow: 0 8px 20px rgba(138, 28, 28, 0.6);
+        }
+
+        /* --- CABECERA --- */
+        header {
+            text-align: center;
+            border-bottom: 3px double var(--accent-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-color);
+            font-size: 3rem;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL (DISEÑO DE 3 COLUMNAS) --- */
+        .main-gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: stretch; /* Hace que todas las cajas tengan la misma altura */
+        }
+
+        /* Estilos comunes para las tres cajas */
+        .gallery-box {
+            background-color: var(--box-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 20px rgba(212, 175, 55, 0.1);
+            flex: 1 1 350px; /* Crecen y se encogen, base de 350px */
+            display: flex;
+            flex-direction: column;
+            min-height: 450px; /* Altura mínima para que se vean bien */
+        }
+
+        /* --- COLUMNA 1: IMAGEN DEL RESULTADO (IZQUIERDA) --- */
+        #result-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ajusta la imagen sin estirarla */
+            border-radius: 4px;
+            border: 5px solid #2a2a2a;
+        }
+
+        /* --- COLUMNA 2: DESCRIPCIÓN (CENTRO) --- */
+        .info-box h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .artist-name {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #bba883;
+        }
+
+        .description-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            flex-grow: 1; /* Ocupa el espacio disponible */
+        }
+
+        .era-text {
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dotted var(--accent-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- COLUMNA 3: CÁMARA (DERECHA) --- */
+        #webcam-box {
+            align-items: center;
+            justify-content: center;
+        }
+
+        #webcam-container canvas {
+            border-radius: 8px;
+            box-shadow: 0 0 15px var(--accent-color);
+            width: 100% !important; /* Forzar ajuste al contenedor */
+            height: auto !important;
+        }
+
+        .start-btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .boton-elegante {
+            background: linear-gradient(45deg, #d4af37, #a88b2d);
+            border: none;
+            color: #0a0a0a;
+            padding: 15px 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .boton-elegante:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.6);
+        }
+
+        #label-container { display: none; } /* Ocultamos los porcentajes feos de TM */
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Lo Mejor del Arte</h1>
+    </header>
+
+    <div class="start-btn-container">
+        <button class="boton-elegante" type="button" onclick="init()">Iniciar Cámara</button>
+        
+        <button class="boton-elegante boton-rojo" type="button" onclick="detener()">Congelar</button>
+    </div>
+
+    <main class="main-gallery-container">
+        
+        <section class="gallery-box" id="result-image-container">
+            <img id="artwork-img-display" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cathedral_interior.jpg/640px-Cathedral_interior.jpg" alt="Esperando detección">
+        </section>
+
+        <section class="gallery-box info-box">
+            <h2 id="artwork-title">Esperando obra...</h2>
+            <p class="artist-name" id="artwork-artist">---</p>
+            
+            <p class="description-text" id="artwork-description">
+                Acerca la cámara a una pintura para que el modelo de Inteligencia Artificial pueda identificarla y mostrarte su información.
+            </p>
+
+            <p class="era-text" id="artwork-era">Época: ---</p>
+        </section>
+
+        <section class="gallery-box" id="webcam-box">
+            <h3 style="text-align: center; color: var(--accent-color); font-family: Cinzel;">Cámara del Dispositivo</h3>
+            <div id="webcam-container"></div>
+        </section>
+
+    </main>
+    
+    <div id="label-container"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script type="text/javascript">
+
+        const URL = "https://teachablemachine.withgoogle.com/models/r2qSZ7ls8/";
+
+
+       // =================================================================
+        //  PASO 2: BASE DE DATOS 
+        // =================================================================
+        const catalogoArte = {
+            // --- CLASE 1: La Noche Estrellada ---
+            "La Noche Estrellada": {
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1024px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+                artista: "Vincent van Gogh",
+                descripcion: "La obra maestra de Van Gogh. Muestra la vista exterior nocturna desde la ventana de su habitación en el sanatorio de Saint-Rémy-de-Provence.",
+                epoca: "1889, Postimpresionismo"
+            },
+
+            // --- CLASE 2: Autoretrato ---
+            "Autoretrato de Van Gogh": {
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg/800px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg",
+                artista: "Vincent van Gogh",
+                descripcion: "Van Gogh pintó más de 30 autorretratos. En este, usa colores complementarios (azul y naranja) y pinceladas rítmicas para expresar su estado psicológico.",
+                epoca: "1889, Postimpresionismo"
+            },
+
+            // --- CLASE 3: Guernica ---
+            "Guernica": {
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg",
+                artista: "Pablo Picasso",
+                descripcion: "Un poderoso símbolo antibélico. Representa el sufrimiento del bombardeo a la ciudad de Guernica. El toro, el caballo y la luz son símbolos clave de esta tragedia.",
+                epoca: "1937, Cubismo / Surrealismo"
+            },
+
+            // --- CLASE 4: Mujer con Sombrilla ---
+            "Mujer con Sombrilla": {
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg/800px-Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg",
+                artista: "Claude Monet",
+                descripcion: "También conocida como 'El Paseo'. Monet captura un momento espontáneo de su esposa e hijo, enfocándose en cómo la luz se filtra a través de la sombrilla y el viento mueve el vestido.",
+                epoca: "1875, Impresionismo"
+            },
+
+            // --- CLASE 5: Sueño de una tarde ---
+            "Sueño de una tarde": {
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Sue%C3%B1o_de_una_tarde_dominical_en_la_Alameda_Central.jpg/1280px-Sue%C3%B1o_de_una_tarde_dominical_en_la_Alameda_Central.jpg",
+                artista: "Diego Rivera",
+                descripcion: "Mural monumental 'Sueño de una tarde dominical en la Alameda Central'. Representa un recorrido por la historia de México, con la Catrina en el centro tomada de la mano de Rivera niño.",
+                epoca: "1947, Muralismo Mexicano"
+            },
+
+            // --- CLASE 6: Valle de México ---
+            "Valle de México": {
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Jos%C3%A9_Mar%C3%ADa_Velasco_-_The_Valley_of_Mexico_-_Google_Art_Project.jpg/1024px-Jos%C3%A9_Mar%C3%ADa_Velasco_-_The_Valley_of_Mexico_-_Google_Art_Project.jpg",
+                artista: "José María Velasco",
+                descripcion: "Obra cumbre del paisajismo mexicano. Velasco capturó la inmensidad, la luz transparente y la geografía del valle con un detalle casi científico y un profundo nacionalismo.",
+                epoca: "1875, Paisajismo Académico"
+            },
+
+            // ---  Pintores ---
+            "Vincent van Gogh": {
+                // Usamos "La Noche Estrellada" como su imagen representativa
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1024px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+                artista: "Vincent van Gogh",
+                descripcion: "Uno de los principales exponentes del postimpresionismo. Su estilo se caracteriza por el uso de colores vivos y pinceladas gruesas, curvas y expresivas que transmiten emoción y movimiento, más que la realidad exacta.",
+                epoca: "Postimpresionismo (Finales s. XIX)"
+            },
+            "Pablo Picasso": {
+                // Usamos "Mujer que llora" como representativa
+                imagenUrl: "https://youraudiotour.s3.amazonaws.com/uploads/stop/picture/6257/Pablo_Picasso_-__La_Mujer_que_Llora___1937__.jpg", 
+                artista: "Pablo Picasso",
+                descripcion: "Creador del Cubismo. Sus obras rompen con la perspectiva tradicional, mostrando los objetos desde múltiples ángulos a la vez. Es famoso por usar formas geométricas y tonos a veces monocromáticos para expresar el drama humano.",
+                epoca: "Cubismo / Surrealismo (s. XX)"
+            },
+            "Claude Monet": {
+                // Usamos "Impresión, sol naciente" (la que dio nombre al impresionismo)
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg",
+                artista: "Claude Monet",
+                descripcion: "El padre del Impresionismo. Su obsesión no era el objeto en sí, sino captar la LUZ y cómo esta cambiaba los colores del paisaje en diferentes momentos del día. Sus pinceladas son sueltas y rápidas.",
+                epoca: "Impresionismo (Finales s. XIX)"
+            },
+            "Leonardo da Vinci": {
+                // Usamos "Mona lisa" como representativa
+                imagenUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
+                artista: "Leonardo da Vinci",
+                descripcion: "La Mona Lisa es el retrato que más literatura ha generado a lo largo de toda la historia del arte. Destaca por su enigmática sonrisa y la técnica del 'sfumato' que suaviza los contornos.",
+                epoca: "1503–1519 / Renacimiento Italiano" 
+            },
+
+            "Diego Rivera": {
+                // Usamos "Vendedora de Flores" o un detalle de sus murales
+                imagenUrl: "https://www.paradisecatchers.com/wp-content/uploads/2023/06/Mexico-City-Diego-Rivera-Mural-Museum.jpg",
+                artista: "Diego Rivera",
+                descripcion: "Máximo representante del muralismo mexicano. Su obra se caracteriza por un alto contenido social y político, rescatando las raíces indígenas y la historia de México con colores vivos y figuras monumentales.",
+                epoca: "Siglo XX / Muralismo Mexicano"
+            },
+
+            "José Clemente Orozco": {
+                // Usamos "El Hombre en Llamas" (Hospicio Cabañas)
+                imagenUrl: "https://tse2.mm.bing.net/th/id/OIP.5aYq9G3Crtylq8OYddng1QAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+                artista: "José Clemente Orozco",
+                descripcion: "Muralista conocido por su estilo expresionista y dramático. A diferencia de Rivera, Orozco pintaba el sufrimiento humano y la tragedia de la revolución con colores oscuros, rojos intensos y trazos fuertes.",
+                epoca: "Siglo XX / Muralismo Mexicano"
+            },
+        };
+
+        // --- VARIABLES GLOBALES ---
+        let model, webcam, maxPredictions;
+        let ultimaPrediccionFuerte = ""; 
+        let isRunning = false; // Variable para saber si la cámara está prendida
+        let animationId; // Identificador para poder detener el bucle
+
+        async function init() {
+            // Evitar que se inicie dos veces si ya está corriendo
+            if (isRunning) return;
+
+            // Solo cargamos el modelo si no se ha cargado antes
+            if (!model) {
+                const modelURL = URL + "model.json";
+                const metadataURL = URL + "metadata.json";
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+            }
+
+            const flip = true; 
+            webcam = new tmImage.Webcam(400, 400, flip); 
+            await webcam.setup(); 
+            await webcam.play();
+            
+            // Limpiamos el contenedor por si había una cámara vieja y ponemos la nueva
+            document.getElementById("webcam-container").innerHTML = "";
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+
+            isRunning = true;
+            window.requestAnimationFrame(loop);
+        }
+
+        async function loop() {
+            // Solo sigue en bucle si la variable isRunning es verdadera
+            if (isRunning) {
+                webcam.update(); 
+                await predict();
+                animationId = window.requestAnimationFrame(loop);
+            }
+        }
+
+        // --- FUNCIÓN NUEVA PARA CONGELAR ---
+        function detener() {
+            isRunning = false; // Esto detiene el bucle (congela la imagen)
+            if (webcam) {
+                webcam.stop(); // Esto apaga la luz verde de la cámara
+            }
+            cancelAnimationFrame(animationId); // Asegura que se cancele la animación
+        }
+
+        async function predict() {
+            // Predicción normal...
+            const prediction = await model.predict(webcam.canvas);
+            
+            let prediccionMasAlta = { className: "", probability: 0 };
+
+            for (let i = 0; i < maxPredictions; i++) {
+                if (prediction[i].probability > prediccionMasAlta.probability) {
+                    prediccionMasAlta = prediction[i];
+                }
+            }
+
+            const UMBRAL_CONFIANZA = 0.85;
+
+            if (prediccionMasAlta.probability > UMBRAL_CONFIANZA && prediccionMasAlta.className !== ultimaPrediccionFuerte) {
+                
+                const nombreClaseDetectada = prediccionMasAlta.className;
+                
+                if (catalogoArte[nombreClaseDetectada]) {
+                    ultimaPrediccionFuerte = nombreClaseDetectada; 
+                    const datosObra = catalogoArte[nombreClaseDetectada];
+
+                    document.getElementById("artwork-img-display").src = datosObra.imagenUrl;
+                    document.getElementById("artwork-title").innerText = nombreClaseDetectada;
+                    document.getElementById("artwork-artist").innerText = datosObra.artista;
+                    document.getElementById("artwork-description").innerText = datosObra.descripcion;
+                    document.getElementById("artwork-era").innerText = "Época: " + datosObra.epoca;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
