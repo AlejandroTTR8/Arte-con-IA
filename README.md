@@ -14,9 +14,9 @@ Este proyecto es una aplicación web interactiva que utiliza **Visión por Compu
 
 Explicación del funcionamiento, demostración en vivo y conclusiones del proyecto (2 min).
 
-[![Ver Video en YouTube](https://img.youtube.com/vi/TU_ID_DEL_VIDEO_AQUI/0.jpg)](https://www.youtube.com/watch?v=TU_LINK_DEL_VIDEO)
+[![Ver Video en YouTube](https://youtu.be/6I-URibFT7E)
 
-> **Haz clic en la imagen o [aquí](PEGAR_TU_LINK_DE_YOUTUBE_AQUI) para ver la presentación.**
+> **Haz clic en la imagen o [aquí](https://youtu.be/6I-URibFT7E) para ver la presentación.**
 
 ---
 
